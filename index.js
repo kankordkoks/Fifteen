@@ -1,5 +1,6 @@
 const body = document.querySelector('body')
 const page = document.createElement('div')
+const audio = new Audio()
 
 page.classList.add('page')
 body.prepend(page)
@@ -43,10 +44,15 @@ shuffle.setAttribute('id', 'shuflle')
 shuffle.textContent = 'Shuffle'
 page.append(shuffle)
 
+let flatMatrix = matrix.flat()
+let shuffleArr = shuffleArray(flatMatrix)
+matrix = getMatrix(shuffleArr)
+setPositionItems(matrix)
+
 shuffle.addEventListener('click', () => {
 
-	const flatMatrix = matrix.flat()
-	const shuffleArr = shuffleArray(flatMatrix)
+	flatMatrix = matrix.flat()
+	shuffleArr = shuffleArray(flatMatrix)
 	matrix = getMatrix(shuffleArr)
 	setPositionItems(matrix)
 
@@ -66,6 +72,7 @@ containerNode.addEventListener('click', (event) => {
 	console.log(isValid)
 	if (isValid) {
 		swap(blankCoords, buttonCoords, matrix)
+		playAudio()
 		setPositionItems(matrix)
 	}
 })
@@ -132,3 +139,11 @@ function swap(coords1, coords2, matrix) {
 	matrix[coords2.y][coords2.x] = coords1Number
 }
 
+function playAudio() {
+	audio.src = './assets/sound.mp3'
+	audio.currentTime = 0;
+	audio.play();
+}
+function pauseAudio() {
+	audio.pause();
+}
